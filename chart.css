@@ -1,0 +1,331 @@
+/* Chart-specific styling for Payout Elasticity Simulator */
+
+/* General chart container */
+.chart-container {
+    position: relative;
+    min-height: 200px;
+    margin-bottom: 20px;
+}
+
+/* Canvas element for charts */
+canvas {
+    width: 100% !important;
+    max-height: 100%;
+}
+
+/* Gauge chart styling */
+.gauge-container {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+    gap: 30px;
+}
+
+.chart-wrapper {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+}
+
+.gauge-value {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--primary);
+}
+
+.gauge-label {
+    position: absolute;
+    bottom: -30px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 14px;
+    color: var(--gray);
+}
+
+/* Elasticity chart */
+.elasticity-chart-container {
+    height: 350px;
+    margin: 30px 0;
+}
+
+/* ROI chart */
+.roi-chart-container {
+    height: 400px;
+    margin: 30px 0;
+}
+
+/* Risk chart */
+.risk-chart-container {
+    height: 300px;
+    margin: 30px 0;
+}
+
+/* Quarterly chart */
+.quarterly-chart-container {
+    height: 250px;
+    margin: 20px 0;
+}
+
+/* Annual payout composition */
+.payout-composition-container {
+    height: 300px;
+    margin: 20px 0;
+}
+
+/* Monthly breakdown chart */
+.monthly-breakdown-container {
+    height: 300px;
+    margin: 20px 0;
+}
+
+/* Philosophy radar chart */
+.radar-chart-container {
+    height: 350px;
+    margin: 20px 0;
+}
+
+/* Prize ladder chart */
+.prize-ladder-container {
+    height: 300px;
+    margin: 20px 0;
+}
+
+/* Distribution chart */
+.distribution-chart-container {
+    height: 300px;
+    margin: 20px 0;
+}
+
+/* Psychology chart */
+.psychology-chart-container {
+    height: 300px;
+    margin: 20px 0;
+}
+
+/* Recommendation comparison chart */
+.recommendation-chart-container {
+    height: 300px;
+    margin: 20px 0;
+}
+
+/* Chart legends */
+.chart-legend {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 10px 0;
+    gap: 15px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    margin-right: 15px;
+    font-size: 14px;
+}
+
+.legend-color {
+    width: 15px;
+    height: 15px;
+    border-radius: 3px;
+    margin-right: 5px;
+}
+
+/* Chart tooltips - custom styling */
+.chart-tooltip {
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    border-radius: 4px;
+    padding: 8px 12px;
+    font-size: 13px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    pointer-events: none;
+}
+
+.tooltip-title {
+    font-weight: bold;
+    margin-bottom: 5px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    padding-bottom: 3px;
+}
+
+.tooltip-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 2px 0;
+}
+
+.tooltip-color {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    margin-right: 5px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .gauge-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .chart-wrapper {
+        margin-bottom: 40px;
+    }
+    
+    .chart-container {
+        min-height: 250px;
+    }
+}
+
+/* Chart annotations */
+.chart-annotation {
+    font-size: 12px;
+    color: var(--gray);
+    padding: 8px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    pointer-events: none;
+}
+
+/* Chart axis labels */
+.axis-label {
+    font-size: 12px;
+    fill: var(--gray);
+    text-anchor: middle;
+}
+
+/* Custom colors for chart elements */
+.commission-color { background-color: #555555; }
+.quarterly-color { background-color: #009988; }
+.continuity-color { background-color: #d2004b; }
+.achievement-color { background-color: #ffaa00; }
+.revenue-color { background-color: #0066cc; }
+.profit-color { background-color: #00b347; }
+
+/* Highlight regions on charts */
+.highlight-region {
+    background-color: rgba(255, 170, 0, 0.1);
+    border: 1px dashed #ffaa00;
+    border-radius: 4px;
+    padding: 5px;
+    font-size: 11px;
+    color: #885500;
+    text-align: center;
+}
+
+/* Target line on charts */
+.target-line {
+    position: absolute;
+    border-left: 2px dashed #d2004b;
+    height: 100%;
+    z-index: 1;
+}
+
+.target-line-label {
+    position: absolute;
+    top: 10px;
+    padding: 3px 6px;
+    background-color: #d2004b;
+    color: white;
+    font-size: 12px;
+    border-radius: 3px;
+    white-space: nowrap;
+}
+
+/* Loading indicator for charts */
+.chart-loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid var(--primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Elasticity comparison styling */
+.elasticity-comparison-container {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid var(--light-gray);
+}
+
+/* Risk matrix visualization */
+.risk-matrix-visualization {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.risk-level {
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.risk-level-low {
+    background-color: rgba(0, 179, 71, 0.1);
+    border: 1px solid rgba(0, 179, 71, 0.3);
+}
+
+.risk-level-medium {
+    background-color: rgba(255, 170, 0, 0.1);
+    border: 1px solid rgba(255, 170, 0, 0.3);
+}
+
+.risk-level-high {
+    background-color: rgba(210, 0, 75, 0.1);
+    border: 1px solid rgba(210, 0, 75, 0.3);
+}
+
+.risk-value {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.risk-description {
+    font-size: 14px;
+    color: var(--gray);
+    line-height: 1.4;
+}
+
+/* Animation for chart transitions */
+.chart-transition {
+    transition: opacity 0.3s ease;
+}
+
+.chart-transition.hidden {
+    opacity: 0;
+}
+
+.chart-transition.visible {
+    opacity: 1;
+}

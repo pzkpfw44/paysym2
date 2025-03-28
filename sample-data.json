@@ -1,0 +1,246 @@
+{
+    "sampleStructures": [
+      {
+        "name": "Conservative Structure",
+        "useRollingAverage": true,
+        "previousMonths": [18000, 19000],
+        "commissionThresholds": [
+          {
+            "threshold": 15000,
+            "upTo": 30000,
+            "percentage": 1.5
+          },
+          {
+            "threshold": 30000,
+            "upTo": 45000,
+            "percentage": 3
+          },
+          {
+            "threshold": 45000,
+            "upTo": null,
+            "percentage": 4.5
+          }
+        ],
+        "quarterlyThresholds": [
+          {
+            "threshold": 95,
+            "upTo": 99,
+            "bonus": 1000
+          },
+          {
+            "threshold": 100,
+            "upTo": 109,
+            "bonus": 1200
+          },
+          {
+            "threshold": 110,
+            "upTo": 119,
+            "bonus": 1500
+          },
+          {
+            "threshold": 120,
+            "upTo": 129,
+            "bonus": 1800
+          },
+          {
+            "threshold": 130,
+            "upTo": null,
+            "bonus": 2000
+          }
+        ],
+        "continuityThreshold": 100,
+        "continuityThresholds": [
+          {
+            "threshold": 100,
+            "upTo": 109,
+            "bonus": 300
+          },
+          {
+            "threshold": 110,
+            "upTo": 119,
+            "bonus": 350
+          },
+          {
+            "threshold": 120,
+            "upTo": 129,
+            "bonus": 400
+          },
+          {
+            "threshold": 130,
+            "upTo": null,
+            "bonus": 500
+          }
+        ],
+        "quarterlyWeights": [25, 25, 25, 25]
+      },
+      {
+        "name": "Balanced Structure",
+        "useRollingAverage": true,
+        "previousMonths": [18000, 19000],
+        "commissionThresholds": [
+          {
+            "threshold": 10000,
+            "upTo": 25000,
+            "percentage": 2
+          },
+          {
+            "threshold": 25000,
+            "upTo": 40000,
+            "percentage": 4
+          },
+          {
+            "threshold": 40000,
+            "upTo": null,
+            "percentage": 6
+          }
+        ],
+        "quarterlyThresholds": [
+          {
+            "threshold": 90,
+            "upTo": 99,
+            "bonus": 1200
+          },
+          {
+            "threshold": 100,
+            "upTo": 104,
+            "bonus": 1600
+          },
+          {
+            "threshold": 105,
+            "upTo": 114,
+            "bonus": 2000
+          },
+          {
+            "threshold": 115,
+            "upTo": 129,
+            "bonus": 2400
+          },
+          {
+            "threshold": 130,
+            "upTo": null,
+            "bonus": 2800
+          }
+        ],
+        "continuityThreshold": 100,
+        "continuityThresholds": [
+          {
+            "threshold": 100,
+            "upTo": 104,
+            "bonus": 400
+          },
+          {
+            "threshold": 105,
+            "upTo": 114,
+            "bonus": 500
+          },
+          {
+            "threshold": 115,
+            "upTo": 129,
+            "bonus": 600
+          },
+          {
+            "threshold": 130,
+            "upTo": null,
+            "bonus": 750
+          }
+        ],
+        "quarterlyWeights": [25, 25, 25, 25]
+      },
+      {
+        "name": "Aggressive Structure",
+        "useRollingAverage": false,
+        "previousMonths": [18000, 19000],
+        "commissionThresholds": [
+          {
+            "threshold": 8000,
+            "upTo": 20000,
+            "percentage": 3
+          },
+          {
+            "threshold": 20000,
+            "upTo": 35000,
+            "percentage": 5
+          },
+          {
+            "threshold": 35000,
+            "upTo": null,
+            "percentage": 8
+          }
+        ],
+        "quarterlyThresholds": [
+          {
+            "threshold": 90,
+            "upTo": 99,
+            "bonus": 1500
+          },
+          {
+            "threshold": 100,
+            "upTo": 104,
+            "bonus": 2000
+          },
+          {
+            "threshold": 105,
+            "upTo": 114,
+            "bonus": 2500
+          },
+          {
+            "threshold": 115,
+            "upTo": 129,
+            "bonus": 3000
+          },
+          {
+            "threshold": 130,
+            "upTo": null,
+            "bonus": 3500
+          }
+        ],
+        "continuityThreshold": 100,
+        "continuityThresholds": [
+          {
+            "threshold": 100,
+            "upTo": 104,
+            "bonus": 500
+          },
+          {
+            "threshold": 105,
+            "upTo": 114,
+            "bonus": 700
+          },
+          {
+            "threshold": 115,
+            "upTo": 129,
+            "bonus": 900
+          },
+          {
+            "threshold": 130,
+            "upTo": null,
+            "bonus": 1200
+          }
+        ],
+        "quarterlyWeights": [25, 25, 25, 25]
+      }
+    ],
+    "samplePerformances": [
+      {
+        "name": "Low Performer",
+        "fte": 1.0,
+        "quarterlyAchievements": [75, 80, 82, 85],
+        "monthlySales": [15000, 16500, 18750, 21000, 22500, 24000, 26250, 21000, 22500, 24000, 26250, 30000],
+        "yearlyTarget": 267750
+      },
+      {
+        "name": "Average Performer",
+        "fte": 1.0,
+        "quarterlyAchievements": [90, 98, 102, 105],
+        "monthlySales": [20000, 22000, 25000, 28000, 30000, 32000, 35000, 28000, 30000, 32000, 35000, 40000],
+        "yearlyTarget": 357000
+      },
+      {
+        "name": "Top Performer",
+        "fte": 1.0,
+        "quarterlyAchievements": [120, 125, 130, 140],
+        "monthlySales": [26000, 28600, 32500, 36400, 39000, 41600, 45500, 36400, 39000, 41600, 45500, 52000],
+        "yearlyTarget": 464100
+      }
+    ]
+  }

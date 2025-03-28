@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payout Elasticity Simulator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Advanced Payout Elasticity Simulator</h1>
+    </header>
+    
+    <div class="container">
+        <div class="content">
+            <div class="form-section">
+                <h2>Input Parameters</h2>
+                
+                <div class="scenario-manager">
+                    <h3 class="section-title">Scenario Manager</h3>
+                    
+                    <div class="tabs scenario-tabs">
+                        <div class="tab active" data-tab="structure">Payout Structure</div>
+                        <div class="tab" data-tab="performance">Performance Profile</div>
+                    </div>
+                    
+                    <div class="tab-content active" id="structureTab">
+                        <div class="preset-scenarios">
+                            <div class="preset-scenario preset-conservative" id="presetConservative">
+                                <strong>Conservative Model</strong>
+                                <p>Lower risks, moderate rewards</p>
+                            </div>
+                            <div class="preset-scenario preset-balanced" id="presetBalanced">
+                                <strong>Balanced Model</strong>
+                                <p>Standard thresholds and rewards</p>
+                            </div>
+                            <div class="preset-scenario preset-aggressive" id="presetAggressive">
+                                <strong>Aggressive Model</strong>
+                                <p>Higher risks, higher rewards</p>
+                            </div>
+                        </div>
+                        
+                        <div class="scenario-actions">
+                            <div class="form-group">
+                                <label for="structureName">Save Structure As:</label>
+                                <input type="text" id="structureName" placeholder="Structure name">
+                            </div>
+                            <button id="saveStructureBtn">Save Structure</button>
+                        </div>
+                        
+                        <div class="scenario-list" id="structureList">
+                            <!-- Payout structures will be listed here -->
+                        </div>
+                    </div>
+                    
+                    <div class="tab-content" id="performanceTab">
+                        <div class="preset-scenarios">
+                            <div class="preset-scenario preset-low" id="presetLow">
+                                <strong>Low Performer</strong>
+                                <p>~70-85% Achievement</p>
+                            </div>
+                            <div class="preset-scenario preset-medium" id="presetMedium">
+                                <strong>Average Performer</strong>
+                                <p>~90-110% Achievement</p>
+                            </div>
+                            <div class="preset-scenario preset-high" id="presetHigh">
+                                <strong>Top Performer</strong>
+                                <p>~120-140% Achievement</p>
+                            </div>
+                        </div>
+                        
+                        <div class="scenario-actions">
+                            <div class="form-group">
+                                <label for="performanceName">Save Performance As:</label>
+                                <input type="text" id="performanceName" placeholder="Performance name">
+                            </div>
+                            <button id="savePerformanceBtn">Save Performance</button>
+                        </div>
+                        
+                        <div class="scenario-list" id="performanceList">
+                            <!-- Performance profiles will be listed here -->
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Payout Model Structure Section -->
+                <div class="parameter-section">
+                    <h3 class="main-section-title">Payout Model Structure</h3>
+                    
+                    <h3 class="section-title collapsible" id="commissionToggle">Commission Settings</h3>
+                    <div class="collapse-content expanded" id="commissionContent">
+                        <div class="form-group">
+                            <label for="useRollingAverage">
+                                <input type="checkbox" id="useRollingAverage"> 
+                                Use 3-Month Rolling Average for Commission
+                            </label>
+                            <div class="help-text">Calculates commission based on the average of current month plus previous two months</div>
+                        </div>
+                        
+                        <div id="previousMonthsContainer" style="display: none;">
+                            <h4>Previous Months Data (Before January)</h4>
+                            <div class="previous-months">
+                                <div class="form-group">
+                                    <label for="previousMonth1">November</label>
+                                    <input type="number" id="previousMonth1" value="18000" min="0">
+                                </div>
+                                <div class="form-group">
+                                    <label for="previousMonth2">December</label>
+                                    <input type="number" id="previousMonth2" value="19000" min="0">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <h4>Commission Thresholds</h4>
+                        <div id="commissionThresholds">
+                            <div class="threshold-row">
+                                <div class="form-group">
+                                    <label>Threshold (€)</label>
+                                </div>
+                                <div class="form-group">
+                                    <label>Up To (€)</label>
+                                </div>
+                                <div class="form-group">
+                                    <label>Commission (%)</label>
+                                </div>
+                            </div>
+                            
+                            <div class="threshold-row">
+                                <div class="form-group">
+                                    <input type="number" id="commThreshold1" value="10000" min="0">
+                                </div>
+                                <div class="form-group">
+                                    <input type="number" id="commThresholdUpto1" value="25000" min="0">
+                                </div>
+                                <div class="form-group">
+                                    <input type="number" id="commPercentage1" value="2" min="0" max="100" step="0.1">
+                                </div>
+                            </div>
+                            
+                            <div class="threshold-row">
+                                <div class="form-group">
+                                    <input type="number" id="commThreshold2" value="25000" min="0">
+                                </div>
+                                <div class="form-group">
+                                    <input type="number" id="commThresholdUpto2" value="40000" min="0">
+                                </div>
+                                <div class="form-group">
+                                    <input type="number" id="commPercentage2" value="4" min="0" max="100" step="0.1">
+                                </div>
+                            </div>
+                            
+                            <div class="threshold-row">
+                                <div class="form-group">
+                                    <input type="number" id="commThreshold3" value="40000" min="0">
+                                </div>
+                                <div class="form-group">
+                                    <label>(and above)</label>
+                                </div>
+                                <div class="form-group">
+                                    <input type="number" id="commPercentage3" value="6" min="0" max="100" step="0.1">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h3 class="section-title collapsible" id="quarterlyBonusToggle">Quarterly Bonus Settings</h3>
+                    <div class="collapse-content expanded" id="quarterlyBonusContent">
+                        <div class="settings-panel">
+                            <div id="quarterlyThresholds">
+                                <div class="threshold-row">
+                                    <div class="form-group">
+                                        <label>Threshold (%)</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Up To (%)</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Bonus Amount (€)</label>
+                                    </div>
+                                </div>
+                                
+                                <div class="threshold-row">
+                                    <div class="form-group">
+                                        <input type="number" id="qThreshold1" value="90" min="0" max="200">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="number" id="qThresholdUpto1" value="99" min="0" max="200">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="number" id="qBonus1" value="1200" min="0">
+                                    </div>
+                                </div>
+                                
+                                <div class="threshold-row">
+                                    <div class="form-group">
+                                        <input type="number" id="qThreshold2" value="100" min="0" max="200">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="number" id="qThresholdUpto2" value="104" min="0" max="200">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="number" id="qBonus2" value="1600" min="0">
+                                    </div>
+                                </div>
+                                
+                                <div class="threshold-row">
+                                    <div class="form-group">
+                                        <input type="number" id="qThreshold3" value="105" min="0" max="200">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="number" id="qThresholdUpto3" value="114" min="0" max="200">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="number" id="qBonus3" value="2000" min="0">
+                                    </div>
+                                </div>
+                                
+                                <div class="threshold-row">
+                                    <div class="form-group">
+                                        <input type="number" id="qThreshold4" value="115" min="0" max="200">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="number" id="qThresholdUpto4" value="129" min="0" max="200">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="number" id="qBonus4" value="2400" min="0">
+                                    </div>
+                                </div>
+                                
+                                <div class="threshold-row">
+                                    <div class="form-group">
+                                        <input type="number" id="qThreshold5" value="130" min="0" max="200">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>(and above)</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="number" id="qBonus5" value="2800" min="0">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h3 class="section-title collapsible" id="continuityToggle">Continuity Bonus Settings</h3>
+                    <div class="collapse-content" id="continuityContent">
+                        <div class="settings-panel">
+                            <p>Bonus applied when target is achieved for two consecutive quarters</p>
+                            
+                            <div class="form-group">
+                                <label for="continuityThreshold">Minimum Achievement for Continuity (%)</label>
+                                <input type="number" id="continuityThreshold" value="100" min="0" max="200">
+                            </div>
+                            
+                            <h4>Continuity Bonus Thresholds</h4>
+                            <div id="continuityThresholds">
+                                <div class="threshold-row">
+                                    <div class="form-group">
+                                        <label>Threshold (%)</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Up To (%)</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Bonus Amount (€)</label>
+                                    </div>
+                                </div>
+                                
+                                <div class="threshold-row">
+                                    <div class="form-group">
+                                        <input type="number" id="cThreshold1" value="100" min="0" max="200">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="number" id="cThresholdUpto1" value="104" min="0" max="200">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="number" id="cBonus1" value="400" min="0">
+                                    </div>
+                                </div>
+                                
+                                <div class="threshold-row">
+                                    <div class="form-group">
+                                        <input type="number" id="cThreshold2" value="105" min="0" max="200">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="number" id="cThresholdUpto2" value="114" min="0" max="200">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="number" id="cBonus2" value="500" min="0">
+                                    </div>
+                                </div>
+                                
+                                <div class="threshold-row">
+                                    <div class="form-group">
+                                        <input type="number" id="cThreshold3" value="115" min="0" max="200">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="number" id="cThresholdUpto3" value="129" min="0" max="200">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="number" id="cBonus3" value="600" min="0">
+                                    </div>
+                                </div>
+                                
+                                <div class="threshold-row">
+                                    <div class="form-group">
+                                        <input type="number" id="cThreshold4" value="130" min="0" max="200">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>(and above)</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="number" id="cBonus4" value="750" min="0">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h3 class="section-title collapsible" id="quarterlyWeightsToggle">Quarterly Weights</h3>
+                    <div class="collapse-content" id="quarterlyWeightsContent">
+                        <p>Adjust the relative importance of each quarter (total should equal 100%)</p>
+                        
+                        <div class="quarterly-weights">
+                            <div class="form-group">
+                                <label for="q1Weight">Q1 Weight</label>
+                                <input type="number" id="q1Weight" value="25" min="0" max="100">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="q2Weight">Q2 Weight</label>
+                                <input type="number" id="q2Weight" value="25" min="0" max="100">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="q3Weight">Q3 Weight</label>
+                                <input type="number" id="q3Weight" value="25" min="0" max="100">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="q4Weight">Q4 Weight</label>
+                                <input type="number" id="q4Weight" value="25" min="0" max="100">
+                            </div>
+                        </div>
+                        
+                        <div id="weightWarning" style="display: none;">
+                            Warning: Weights must sum to 100%
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Person Performance Section -->
+                <div class="parameter-section">
+                    <h3 class="main-section-title">Person Performance</h3>
+                    
+                    <h3 class="section-title collapsible" id="basicParamsToggle">Basic Parameters</h3>
+                    <div class="collapse-content expanded" id="basicParamsContent">
+                        <div class="form-group">
+                            <label for="baseSalary">Annual Base Salary (€)</label>
+                            <input type="number" id="baseSalary" value="50000" min="0">
+                            <div class="help-text">Fixed annual compensation not tied to performance</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="fte">FTE Value (0.7-1.0)</label>
+                            <input type="number" id="fte" value="1.0" min="0.7" max="1.0" step="0.1">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="yearlyTargetDisplay">Yearly Revenue Target (€)</label>
+                            <input type="text" id="yearlyTargetDisplay" value="1,000,000" readonly>
+                            <input type="hidden" id="yearlyTarget" value="1000000">
+                            <div class="help-text">Sum of monthly targets - updated automatically</div>
+                        </div>
+                    </div>
+                    
+                    <h3 class="section-title collapsible" id="quarterlyToggle">Quarterly Achievement (%)</h3>
+                    <div class="collapse-content expanded" id="quarterlyContent">
+                        <div class="form-group">
+                            <label for="q1Achievement">Q1 Achievement</label>
+                            <input type="number" id="q1Achievement" value="95" min="0" max="200">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="q2Achievement">Q2 Achievement</label>
+                            <input type="number" id="q2Achievement" value="105" min="0" max="200">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="q3Achievement">Q3 Achievement</label>
+                            <input type="number" id="q3Achievement" value="110" min="0" max="200">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="q4Achievement">Q4 Achievement</label>
+                            <input type="number" id="q4Achievement" value="120" min="0" max="200">
+                        </div>
+                    </div>
+                    
+                    <h3 class="section-title collapsible" id="monthlyToggle">Monthly Net Sales (€)</h3>
+                    <div class="collapse-content expanded" id="monthlyContent">
+                        <div class="monthly-input">
+                            <div class="form-group">
+                                <label for="m1Sales">Jan</label>
+                                <input type="number" id="m1Sales" value="20000" min="0" class="monthly-sales">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="m2Sales">Feb</label>
+                                <input type="number" id="m2Sales" value="22000" min="0" class="monthly-sales">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="m3Sales">Mar</label>
+                                <input type="number" id="m3Sales" value="25000" min="0" class="monthly-sales">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="m4Sales">Apr</label>
+                                <input type="number" id="m4Sales" value="28000" min="0" class="monthly-sales">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="m5Sales">May</label>
+                                <input type="number" id="m5Sales" value="30000" min="0" class="monthly-sales">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="m6Sales">Jun</label>
+                                <input type="number" id="m6Sales" value="32000" min="0" class="monthly-sales">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="m7Sales">Jul</label>
+                                <input type="number" id="m7Sales" value="35000" min="0" class="monthly-sales">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="m8Sales">Aug</label>
+                                <input type="number" id="m8Sales" value="28000" min="0" class="monthly-sales">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="m9Sales">Sep</label>
+                                <input type="number" id="m9Sales" value="30000" min="0" class="monthly-sales">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="m10Sales">Oct</label>
+                                <input type="number" id="m10Sales" value="32000" min="0" class="monthly-sales">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="m11Sales">Nov</label>
+                                <input type="number" id="m11Sales" value="35000" min="0" class="monthly-sales">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="m12Sales">Dec</label>
+                                <input type="number" id="m12Sales" value="40000" min="0" class="monthly-sales">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 20px;">
+                    <button id="calculateBtn">Calculate Payout</button>
+                    <button id="resetBtn" class="button-dark">Reset</button>
+                </div>
+            </div>
+            
+            <div class="results-section">
+                <div class="tabs">
+                    <div class="tab active" data-tab="results">Results Dashboard</div>
+                    <div class="tab" data-tab="comparison">Scenario Comparison</div>
+                    <div class="tab" data-tab="roi">ROI Analysis</div>
+                    <div class="tab" data-tab="risk">Risk Analysis</div>
+                    <div class="tab" data-tab="effectiveness">Model Effectiveness</div>
+                </div>
+                
+                <div class="tab-content active" id="resultsTab">
+                    <h2>Payout Results</h2>
+                    
+                    <div class="export-options">
+                        <button id="exportPdfBtn" class="button-secondary">Export as PDF</button>
+                        <button id="exportCsvBtn" class="button-secondary">Export as CSV</button>
+                    </div>
+                    
+                    <!-- New Key Performance Indicators -->
+                    <div class="kpi-metrics">
+                        <div class="kpi-metric">
+                            <div class="kpi-title">Revenue vs Target</div>
+                            <div class="kpi-value" id="revenueVsTarget">100%</div>
+                        </div>
+                        <div class="kpi-metric">
+                            <div class="kpi-title">Payout % of Revenue</div>
+                            <div class="kpi-value" id="payoutPercentage">0.0%</div>
+                        </div>
+                        <div class="kpi-metric">
+                            <div class="kpi-title">Next Threshold</div>
+                            <div class="kpi-value" id="nextThreshold">N/A</div>
+                        </div>
+                        <div class="kpi-metric">
+                            <div class="kpi-title">Year-End Projection</div>
+                            <div class="kpi-value" id="yearEndProjection">€0</div>
+                        </div>
+                    </div>
+                    
+                    <!-- New Annual Payout Composition Chart -->
+                    <div class="annual-payout-container">
+                        <h3>Annual Payout Composition</h3>
+                        <div class="chart-container" style="height: 300px;">
+                            <canvas id="annualPayoutComposition"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="gauge-container">
+                        <div class="chart-wrapper">
+                            <canvas id="targetAchievementGauge" class="gauge"></canvas>
+                            <div class="gauge-value" id="targetAchievementValue">0%</div>
+                            <div class="gauge-label">Target Achievement</div>
+                        </div>
+                        
+                        <div class="chart-wrapper">
+                            <canvas id="totalPayoutGauge" class="gauge"></canvas>
+                            <div class="gauge-value" id="totalPayoutValue">€0</div>
+                            <div class="gauge-label">Total Payout</div>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard">
+                        <div class="card">
+                            <div class="card-title">Total Commission</div>
+                            <div class="card-value" id="totalCommission">€0</div>
+                        </div>
+                        
+                        <div class="card">
+                            <div class="card-title">Total Quarterly Bonus</div>
+                            <div class="card-value" id="totalQuarterlyBonus">€0</div>
+                        </div>
+                        
+                        <div class="card">
+                            <div class="card-title">Total Continuity Bonus</div>
+                            <div class="card-value" id="totalContinuityBonus">€0</div>
+                        </div>
+                        
+                        <div class="card">
+                            <div class="card-title">Avg. Monthly Commission</div>
+                            <div class="card-value" id="avgMonthlyCommission">€0</div>
+                        </div>
+                    </div>
+                    
+                    <!-- New Quarterly Performance Comparison -->
+                    <div class="quarterly-performance-section">
+                        <h3>Quarterly Performance Comparison</h3>
+                        <div class="chart-container" style="height: 200px;">
+                            <canvas id="quarterlyComparisonChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <h3>Quarterly Breakdown</h3>
+                    
+                    <div class="quarter-cards">
+                        <div class="quarter-card">
+                            <h3>Q1</h3>
+                            <div class="detail-row">
+                                <span>Achievement</span>
+                                <span id="q1AchievementResult">0%</span>
+                            </div>
+                            <div class="detail-row">
+                                <span>Quarterly Bonus</span>
+                                <span id="q1Bonus">€0</span>
+                            </div>
+                            <div class="detail-row">
+                                <span>Continuity Bonus</span>
+                                <span id="q1Continuity">€0</span>
+                            </div>
+                            <div class="quarter-value" id="q1Total">€0</div>
+                        </div>
+                        
+                        <div class="quarter-card">
+                            <h3>Q2</h3>
+                            <div class="detail-row">
+                                <span>Achievement</span>
+                                <span id="q2AchievementResult">0%</span>
+                            </div>
+                            <div class="detail-row">
+                                <span>Quarterly Bonus</span>
+                                <span id="q2Bonus">€0</span>
+                            </div>
+                            <div class="detail-row">
+                                <span>Continuity Bonus</span>
+                                <span id="q2Continuity">€0</span>
+                            </div>
+                            <div class="quarter-value" id="q2Total">€0</div>
+                        </div>
+                        
+                        <div class="quarter-card">
+                            <h3>Q3</h3>
+                            <div class="detail-row">
+                                <span>Achievement</span>
+                                <span id="q3AchievementResult">0%</span>
+                            </div>
+                            <div class="detail-row">
+                                <span>Quarterly Bonus</span>
+                                <span id="q3Bonus">€0</span>
+                            </div>
+                            <div class="detail-row">
+                                <span>Continuity Bonus</span>
+                                <span id="q3Continuity">€0</span>
+                            </div>
+                            <div class="quarter-value" id="q3Total">€0</div>
+                        </div>
+                        
+                        <div class="quarter-card">
+                            <h3>Q4</h3>
+                            <div class="detail-row">
+                                <span>Achievement</span>
+                                <span id="q4AchievementResult">0%</span>
+                            </div>
+                            <div class="detail-row">
+                                <span>Quarterly Bonus</span>
+                                <span id="q4Bonus">€0</span>
+                            </div>
+                            <div class="detail-row">
+                                <span>Continuity Bonus</span>
+                                <span id="q4Continuity">€0</span>
+                            </div>
+                            <div class="quarter-value" id="q4Total">€0</div>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-section">
+                        <div class="chart-title">Monthly Payout Breakdown</div>
+                        <div class="chart-container">
+                            <canvas id="monthlyBreakdownChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-section">
+                        <div class="chart-title">Payout Elasticity (0% - 200% Achievement)</div>
+                        <div class="chart-container">
+                            <canvas id="elasticityChart"></canvas>
+                        </div>
+                        
+                        <div class="elasticity-insight" id="elasticityInsight">
+                            <h3>Payout Elasticity Analysis</h3>
+                            <p>Loading elasticity analysis...</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="comparisonTab">
+                    <h2>Scenario Comparison</h2>
+                    
+                    <div class="comparison-selector">
+                        <div class="selector-section">
+                            <h3>Select Payout Structures (1-3)</h3>
+                            <div id="structureSelector" class="selector-container">
+                                <!-- Payout structures will be listed here -->
+                                <p class="empty-message">No payout structures saved</p>
+                            </div>
+                        </div>
+                        
+                        <div class="selector-section">
+                            <h3>Select Performance Profiles (1-12)</h3>
+                            <div id="performanceSelector" class="selector-container">
+                                <!-- Performance profiles will be listed here -->
+                                <p class="empty-message">No performance profiles saved</p>
+                            </div>
+                        </div>
+                        
+                        <div class="selector-actions">
+                            <button id="runComparisonBtn" class="button-primary">Run Comparison</button>
+                            <button id="deepAnalysisBtn" class="button-secondary">Deep Analysis</button>
+                        </div>
+                    </div>
+                    
+                    <div id="noScenariosMessage">
+                        <p>Please save at least one payout structure and one performance profile to run comparisons.</p>
+                    </div>
+                    
+                    <div id="scenarioComparison" style="display: none;">
+                        <div id="comparisonChartContainer" class="chart-container" style="height: 400px;">
+                            <canvas id="comparisonChart"></canvas>
+                        </div>
+                        
+                        <div class="chart-container" style="height: 300px; margin-top: 20px; display: none;" id="elasticityComparisonContainer">
+                            <h3>Elasticity Comparison</h3>
+                            <canvas id="elasticityComparisonChart"></canvas>
+                        </div>
+                        
+                        <table class="comparison-table" id="comparisonTable">
+                            <thead>
+                                <tr>
+                                    <th>Structure</th>
+                                    <th>Performance</th>
+                                    <th>Avg. Achievement</th>
+                                    <th>Total Payout</th>
+                                    <th>Commission</th>
+                                    <th>Quarterly Bonus</th>
+                                    <th>Continuity Bonus</th>
+                                </tr>
+                            </thead>
+                            <tbody id="comparisonTableBody">
+                                <!-- Scenario comparison data goes here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="roiTab">
+                    <h2>ROI Analysis</h2>
+                    
+                    <div class="roi-metrics">
+                        <div class="roi-metric">
+                            <div class="roi-title">Revenue per € Spent on Compensation</div>
+                            <div class="roi-value" id="revenuePerEuro">€0,00</div>
+                        </div>
+                        
+                        <div class="roi-metric">
+                            <div class="roi-title">Marginal Revenue per Additional 1% Achievement</div>
+                            <div class="roi-value" id="marginalRevenue">€0,00</div>
+                        </div>
+                        
+                        <div class="roi-metric">
+                            <div class="roi-title">Marginal Compensation per Additional 1% Achievement</div>
+                            <div class="roi-value" id="marginalCompensation">€0,00</div>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-container" style="height: 400px; margin-top: 30px;">
+                        <canvas id="roiChart"></canvas>
+                    </div>
+                    
+                    <div style="margin-top: 30px;">
+                        <h3>Payout Elasticity by Achievement Range</h3>
+                        <table class="payout-table" id="payoutElasticityTable">
+                            <thead>
+                                <tr>
+                                    <th>Achievement Range</th>
+                                    <th>Payout Increase per 1%</th>
+                                    <th>Revenue Increase per 1%</th>
+                                    <th>ROI Ratio</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>0% - 40%</td>
+                                    <td id="elasticity0to40">€0,00</td>
+                                    <td id="revenue0to40">€0,00</td>
+                                    <td id="roi0to40">0:1</td>
+                                </tr>
+                                <tr>
+                                    <td>41% - 70%</td>
+                                    <td id="elasticity41to70">€0,00</td>
+                                    <td id="revenue41to70">€0,00</td>
+                                    <td id="roi41to70">0:1</td>
+                                </tr>
+                                <tr>
+                                    <td>71% - 89%</td>
+                                    <td id="elasticity71to89">€0,00</td>
+                                    <td id="revenue71to89">€0,00</td>
+                                    <td id="roi71to89">0:1</td>
+                                </tr>
+                                <tr>
+                                    <td>90% - 99%</td>
+                                    <td id="elasticity90to99">€0,00</td>
+                                    <td id="revenue90to99">€0,00</td>
+                                    <td id="roi90to99">0:1</td>
+                                </tr>
+                                <tr>
+                                    <td>100% - 104%</td>
+                                    <td id="elasticity100to104">€0,00</td>
+                                    <td id="revenue100to104">€0,00</td>
+                                    <td id="roi100to104">0:1</td>
+                                </tr>
+                                <tr>
+                                    <td>105% - 114%</td>
+                                    <td id="elasticity105to114">€0,00</td>
+                                    <td id="revenue105to114">€0,00</td>
+                                    <td id="roi105to114">0:1</td>
+                                </tr>
+                                <tr>
+                                    <td>115% - 129%</td>
+                                    <td id="elasticity115to129">€0,00</td>
+                                    <td id="revenue115to129">€0,00</td>
+                                    <td id="roi115to129">0:1</td>
+                                </tr>
+                                <tr>
+                                    <td>≥130%</td>
+                                    <td id="elasticity130plus">€0,00</td>
+                                    <td id="revenue130plus">€0,00</td>
+                                    <td id="roi130plus">0:1</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="riskTab">
+                    <h2>Risk Analysis</h2>
+                    
+                    <div class="risk-analysis">
+                        <p>This analysis evaluates financial risks and opportunities based on different performance scenarios.</p>
+                        
+                        <div class="risk-matrix">
+                            <div class="risk-cell risk-low">
+                                <h4>Low Risk</h4>
+                                <p>Below threshold payouts:</p>
+                                <p id="lowRiskPayout">€0</p>
+                                <p>Achievement: &lt;90%</p>
+                            </div>
+                            
+                            <div class="risk-cell risk-medium">
+                                <h4>Target Performance</h4>
+                                <p>Expected payout at 100%:</p>
+                                <p id="targetRiskPayout">€0</p>
+                                <p>Achievement: 100%</p>
+                            </div>
+                            
+                            <div class="risk-cell risk-high">
+                                <h4>Maximum Exposure</h4>
+                                <p>Maximum payout at 150%:</p>
+                                <p id="highRiskPayout">€0</p>
+                                <p>Achievement: 150%</p>
+                            </div>
+                        </div>
+                        
+                        <div class="chart-container" style="height: 300px; margin-top: 30px;">
+                            <canvas id="riskChart"></canvas>
+                        </div>
+                        
+                        <div class="elasticity-insight" style="margin-top: 20px;">
+                            <h3>Risk Assessment</h3>
+                            <p id="riskAssessment">Loading risk assessment...</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- New Model Effectiveness Tab (renamed from Philosophy) -->
+                <div class="tab-content" id="effectivenessTab">
+                    <h2>Model Effectiveness Analysis</h2>
+                    
+                    <div class="executive-summary-section">
+                        <h3>Executive Summary</h3>
+                        <div class="summary-content" id="executiveSummary">
+                            Loading effectiveness analysis...
+                        </div>
+                    </div>
+                    
+                    <!-- COMPLETE PHILOSOPHY ANALYSIS SECTION HTML -->
+<div class="philosophy-container">
+    <div class="executive-summary-section">
+        <h3>Executive Summary</h3>
+        <div class="summary-content" id="executiveSummary">
+            Loading effectiveness analysis...
+        </div>
+    </div>
+    
+    <div class="philosophy-profile-section">
+        <h3>Model Effectiveness Profile</h3>
+        <div class="radar-chart-container">
+            <div class="chart-container" style="height: 300px;">
+                <canvas id="philosophyRadarChart"></canvas>
+            </div>
+            <div class="radar-chart-legend" id="radarChartLegend">
+                <h4>How to Read This Chart</h4>
+                <p>This radar chart shows how your model performs across six key dimensions of compensation effectiveness:</p>
+                <ul>
+                    <li><strong>Size of Prize</strong>: Overall magnitude of potential variable compensation.</li>
+                    <li><strong>Below Target Support</strong>: Incentives available for underperforming periods.</li>
+                    <li><strong>At Target Incentive</strong>: Strength of motivation to hit 100% exactly.</li>
+                    <li><strong>Above Target Stretch</strong>: Reward for exceeding target expectations.</li>
+                    <li><strong>Near-Miss Psychology</strong>: Psychological tension when approaching target.</li>
+                    <li><strong>Psychological Distance</strong>: Optimal spacing between achievement thresholds.</li>
+                </ul>
+                <p>Higher scores (further from center) indicate stronger effectiveness in that dimension.</p>
+            </div>
+        </div>
+        
+        <div class="profile-metrics">
+            <div class="profile-metric">
+                <h4>Size of Prize</h4>
+                <div class="rating-display">
+                    <div class="rating-score" id="sizeOfPrizeScore">0</div>
+                    <div class="rating-label" id="sizeOfPrizeLabel">Moderate</div>
+                </div>
+                <div class="rating-description" id="sizeOfPrizeDescription">
+                    Analysis of overall compensation magnitude
+                </div>
+            </div>
+            
+            <div class="profile-metric">
+                <h4>Reward Distribution</h4>
+                <div class="rating-display">
+                    <div class="rating-score" id="rewardDistributionScore">0</div>
+                    <div class="rating-label" id="rewardDistributionLabel">Balanced</div>
+                </div>
+                <div class="rating-description" id="rewardDistributionDescription">
+                    How rewards are allocated across achievement levels
+                </div>
+            </div>
+            
+            <div class="profile-metric">
+                <h4>Psychological Mechanisms</h4>
+                <div class="rating-display">
+                    <div class="rating-score" id="psychMechanismsScore">0</div>
+                    <div class="rating-label" id="psychMechanismsLabel">Moderate</div>
+                </div>
+                <div class="rating-description" id="psychMechanismsDescription">
+                    Effective use of behavioral motivation triggers
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="philosophy-analysis-section">
+        <div class="tabs philosophy-tabs">
+            <div class="tab active" data-tab="prizeAnalysis">Size of Prize</div>
+            <div class="tab" data-tab="distributionAnalysis">Reward Distribution</div>
+            <div class="tab" data-tab="psychologyAnalysis">Psychology</div>
+            <div class="tab" data-tab="recommendations">Recommendations</div>
+        </div>
+        
+        <div class="tab-content active" id="prizeAnalysisTab">
+            <h3>Size of Prize Analysis</h3>
+            <div class="total-compensation-section">
+                <h4>Pay Mix Analysis</h4>
+                <div class="pay-mix-metrics">
+                    <div class="pay-mix-metric">
+                        <div class="metric-title">Base Salary</div>
+                        <div class="metric-value" id="baseSalaryValue">€0</div>
+                    </div>
+                    <div class="pay-mix-metric">
+                        <div class="metric-title">Target Variable</div>
+                        <div class="metric-value" id="targetVariableValue">€0</div>
+                    </div>
+                    <div class="pay-mix-metric">
+                        <div class="metric-title">Target Total Comp</div>
+                        <div class="metric-value" id="targetTotalCompValue">€0</div>
+                    </div>
+                    <div class="pay-mix-metric">
+                        <div class="metric-title">Variable/Base Ratio</div>
+                        <div class="metric-value" id="payMixRatioValue">0%</div>
+                        <div class="typicality-indicator" id="payMixTypicality"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="prize-ladder-container">
+                <h4>Payout Ladder Visualization</h4>
+                <div class="chart-container" style="height: 300px;">
+                    <canvas id="prizeLadderChart"></canvas>
+                </div>
+                <div class="prize-analysis" id="prizeLadderAnalysis">
+                    <p>This visualization shows the total payout at different achievement levels.</p>
+                </div>
+            </div>
+            
+            <div class="prize-metrics">
+                <div class="prize-metric">
+                    <div class="metric-title">Maximum Potential</div>
+                    <div class="metric-value" id="maxPotentialValue">€0</div>
+                    <div class="metric-description">Maximum achievable payout at 200% achievement</div>
+                </div>
+                
+                <div class="prize-metric">
+                    <div class="metric-title">Target Multiple</div>
+                    <div class="metric-value" id="targetMultipleValue">0x</div>
+                    <div class="metric-description">Ratio of max payout to target payout</div>
+                    <div class="typicality-indicator" id="targetMultipleTypicality"></div>
+                </div>
+                
+                <div class="prize-metric">
+                    <div class="metric-title">Relative Size</div>
+                    <div class="metric-value" id="relativeSizeValue">0%</div>
+                    <div class="metric-description">Target payout as % of revenue</div>
+                    <div class="typicality-indicator" id="relativeSizeTypicality"></div>
+                </div>
+            </div>
+            
+            <div class="prize-insight insight-box" id="prizeInsight">
+                <h4>Size of Prize Insights</h4>
+                <p id="prizeInsightText">Analyzing the overall magnitude of the compensation package...</p>
+            </div>
+        </div>
+        
+        <div class="tab-content" id="distributionAnalysisTab">
+            <h3>Reward Distribution Analysis</h3>
+            <div class="distribution-chart-container">
+                <div class="chart-container" style="height: 300px;">
+                    <canvas id="distributionChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="distribution-metrics">
+                <div class="distribution-metric">
+                    <div class="metric-title">Below Target Share</div>
+                    <div class="metric-value" id="belowTargetShare">0%</div>
+                    <div class="metric-description">% of max potential available below 100%</div>
+                    <div class="typicality-indicator" id="belowTargetTypicality"></div>
+                </div>
+                
+                <div class="distribution-metric">
+                    <div class="metric-title">At Target Share</div>
+                    <div class="metric-value" id="atTargetShare">0%</div>
+                    <div class="metric-description">% of max potential at 100%</div>
+                    <div class="typicality-indicator" id="atTargetTypicality"></div>
+                </div>
+                
+                <div class="distribution-metric">
+                    <div class="metric-title">Above Target Share</div>
+                    <div class="metric-value" id="aboveTargetShare">0%</div>
+                    <div class="metric-description">% of max potential above 100%</div>
+                    <div class="typicality-indicator" id="aboveTargetTypicality"></div>
+                </div>
+            </div>
+            
+            <div class="distribution-insight insight-box" id="distributionInsight">
+                <h4>Distribution Insights</h4>
+                <p>Analyzing how compensation is allocated across performance levels...</p>
+            </div>
+        </div>
+        
+        <div class="tab-content" id="psychologyAnalysisTab">
+            <h3>Psychological Mechanism Analysis</h3>
+            <div class="psychology-chart-container">
+                <div class="chart-container" style="height: 300px;">
+                    <canvas id="psychologyChart"></canvas>
+                </div>
+                <div class="psychology-chart-legend">
+                    <h4>Understanding This Chart</h4>
+                    <p>This chart shows the incremental payout increase at each percentage point of achievement from 90% to 105%.</p>
+                    <p>Key points:</p>
+                    <ul>
+                        <li>Each bar represents how much additional compensation is earned by moving up exactly 1% in achievement</li>
+                        <li>The <strong style="color:#d2004b">red bar at 100%</strong> highlights the "psychological jump" at target achievement</li>
+                        <li>Larger jumps create stronger motivation to reach that specific threshold</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="psychology-metrics">
+                <div class="psychology-metric">
+                    <div class="metric-title">Near-Miss Incentive</div>
+                    <div class="metric-value" id="nearMissValue">Weak</div>
+                    <div class="metric-description">Effectiveness of 90-99% achievement incentives</div>
+                </div>
+                
+                <div class="psychology-metric">
+                    <div class="metric-title">Target Attainment Jump</div>
+                    <div class="metric-value" id="targetJumpValue">€0</div>
+                    <div class="metric-description">Payout increase from 99% to 100%</div>
+                    <div class="typicality-indicator" id="targetJumpTypicality"></div>
+                </div>
+                
+                <div class="psychology-metric">
+                    <div class="metric-title">Psychological Distance</div>
+                    <div class="metric-value" id="psychDistanceValue">High</div>
+                    <div class="metric-description">Perceived attainability of next threshold</div>
+                </div>
+            </div>
+            
+            <div class="psychology-insight insight-box" id="psychologyInsight">
+                <h4>Psychological Insights</h4>
+                <p>Analyzing how the compensation model leverages behavioral motivation triggers...</p>
+            </div>
+        </div>
+        
+        <div class="tab-content" id="recommendationsTab">
+            <h3>Recommendations</h3>
+            
+            <!-- Moved to the top for better visibility -->
+            <div class="recommendations-goal-selector">
+                <label for="recommendationGoal">Optimization Goal:</label>
+                <select id="recommendationGoal">
+                    <option value="overall">Improve Overall Effectiveness</option>
+                    <option value="target">Motivate Target Achievement</option>
+                    <option value="topPerformers">Reward Top Performers</option>
+                    <option value="balance">Balance Performance Risk</option>
+                </select>
+                <div class="recommendations-goal-info">
+                    Select a specific optimization goal to focus the recommendations on your most important priorities.
+                    Different goals may require trade-offs in other areas of the compensation model.
+                </div>
+            </div>
+            
+            <div id="modelComparisonContainer">
+                <h3>Expected Impact</h3>
+                <div class="chart-container" style="height: 300px;">
+                    <canvas id="recommendationComparisonChart"></canvas>
+                </div>
+            </div>
+            
+            <div id="recommendationsContainer">
+                <!-- Recommendations will be inserted here -->
+            </div>
+            
+            <div class="apply-recommendations-section">
+                <button id="applyRecommendationsBtn" class="button-primary">Apply All Recommendations</button>
+                <div class="help-text">This will modify your current payout structure based on the recommendations</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- Load external libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@2.1.0/dist/chartjs-plugin-annotation.min.js"></script>
+    
+    <!-- Load our JavaScript modules -->
+    <script src="js/calculations.js"></script>
+    <script src="js/charts.js"></script>
+    <script src="js/scenarios.js"></script>
+    <script src="js/exports.js"></script>
+    <script src="js/philosophy.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
